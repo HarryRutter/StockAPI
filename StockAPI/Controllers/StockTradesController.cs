@@ -17,7 +17,7 @@ public class StockTradesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateStockTrade([FromBody] CreateStockTradeRequest request)
+    public IActionResult CreateStockTrade([FromBody] CreateStockTradeRequest request)
     {
         StockTrade stockTrade = new(
             request.StockTicker,

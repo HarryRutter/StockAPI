@@ -1,10 +1,44 @@
 ﻿using StockAPI.Infrastructure.Interfaces;
+using StockAPI.Models;
 using StockAPI.Models.DTOs;
 
 namespace StockAPI.Infrastructure;
 
 public class StockPriceRespository : IStockPriceRespository
 {
+    public StockPriceRespository()
+    {
+        // Init test data
+        var stockTrades = new List<StockTrade>()
+        {
+            new StockTrade(
+                "HR",
+                Guid.NewGuid(),
+                100,
+                50),
+            new StockTrade(
+                "HR",
+                Guid.NewGuid(),
+                50,
+                5),
+            new StockTrade(
+                "TYL",
+                Guid.NewGuid(),
+                20,
+                30),
+            new StockTrade(
+                "TYL",
+                Guid.NewGuid(),
+                10,
+                20)
+        };
+
+        using (var context = new ApplicationDbContext())
+        {
+            context.StockTrades.AddRange(stockTrades);
+            context.SaveChangesAsync();
+        };
+    }
     public IList<StockPrice> GetAll()
     {
         using (var context = new ApplicationDbContext())
