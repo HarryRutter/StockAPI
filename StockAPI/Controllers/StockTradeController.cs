@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StockAPI.Infrastructure;
 using StockAPI.Models;
-using StockAPI.Models.Commands;
+using StockAPI.Models.DTOs;
 
 namespace StockAPI.Controllers;
 
@@ -18,15 +18,8 @@ public class StockTradeController : ControllerBase
         _applicationDbContext = applicationDbContext;
     }
 
-
-    [HttpGet]
-    public IActionResult Get()
-    {
-        return Ok();
-    }
-
     [HttpPost]
-    public async Task<IActionResult> CreateStockTrade([FromBody] CreateStockTradeCommand request)
+    public async Task<IActionResult> CreateStockTrade([FromBody] CreateStockTradeRequest request)
     {
         StockTrade stockTrade = new (
             request.StockTicker,
@@ -39,7 +32,6 @@ public class StockTradeController : ControllerBase
 
         return Ok();
     }
-
     //We need to expose the current value of a stock,
     //    values for all the stocks on the market
     //    and values for a range of them(as a list of ticker symbols).

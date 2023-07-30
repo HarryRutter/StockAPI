@@ -1,4 +1,4 @@
-﻿namespace StockAPI.Models.Commands;
+﻿namespace StockAPI.Models.DTOs;
 
 public record CreateStockTradeRequest(
     string StockTicker,
