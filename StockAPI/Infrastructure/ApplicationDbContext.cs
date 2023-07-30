@@ -6,6 +6,8 @@ namespace StockAPI.Infrastructure;
 public class ApplicationDbContext : DbContext
 {
     private const string _dbName = "StockAPI";
+    
+    public DbSet<StockTrade> StockTrades { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -13,6 +15,4 @@ public class ApplicationDbContext : DbContext
         // Replace with SQL server or something more substantial later!
         optionsBuilder.UseInMemoryDatabase(databaseName: _dbName);
     }
-
-    public DbSet<StockTrade> StockTrades { get; set; }
 }
