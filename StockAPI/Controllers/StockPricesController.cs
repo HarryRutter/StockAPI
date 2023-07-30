@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StockAPI.Infrastructure.Interfaces;
+using StockAPI.Models.DTOs;
 
 namespace StockAPI.Controllers;
 
@@ -28,20 +29,11 @@ public class StockPricesController : ControllerBase
         return Ok(result);
     }
 
-    // To-Do
-    //[HttpGet("GetByTickers")]
-    //public IActionResult GetByTickerList([rams string tickers)
-    //{
-    //    var result = _applicationDbContext.StockTrades
-    //        .Where(x => x.StockTicker == stockTicker)
-    //        .GroupBy(x => x.StockTicker, y => y.Price)
-    //        .Select(x => new StockPrice(x.Key, x.Average()));
-
-    //    return Ok(result);
-    //}
-
-    //We need to expose the current value of a stock,
-    //    values for all the stocks on the market
-    //    and values for a range of them(as a list of ticker symbols).
+    [HttpPost("GetByTickerList")]
+    public IActionResult GetByTickerList(GetStockPricesByTickerListRequest request)
+    {
+        var result = _stockPriceRespository.GetByTickerList(request.stockTickers);
+        return Ok(result);
+    }
 }
 

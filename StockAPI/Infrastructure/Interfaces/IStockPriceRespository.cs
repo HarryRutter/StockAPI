@@ -8,6 +8,6 @@ public interface IStockPriceRespository
 
 	StockPriceResponse GetByTicker(string stockTicker);
 
-	IList<StockPriceResponse>
+	IList<StockPriceResponse> GetByTickerList(IList<string> stockTickers);
 }
 
