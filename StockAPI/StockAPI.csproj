@@ -20,6 +20,8 @@
     <None Remove="Models\DTOs\" />
     <None Remove="Infrastructure\Interfaces\" />
     <None Remove="Models\Entities\" />
+    <None Remove="Exceptions\" />
+    <None Remove="Models\Exceptions\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -27,5 +29,7 @@
     <Folder Include="Models\DTOs\" />
     <Folder Include="Infrastructure\Interfaces\" />
     <Folder Include="Models\Entities\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Models\Exceptions\" />
   </ItemGroup>
 </Project>

@@ -25,9 +25,20 @@ public class StockTradesController : ControllerBase
             request.Price,
             request.NumberOfShares);
 
-        _stockTradeRespository.Create(stockTrade);
+        try
+        {
+            // Validate method will throw exception if business rules aren't satisfied.
+            stockTrade.Validate();
 
-        return Ok();
+            // If no exceptions, ok to create.
+            _stockTradeRespository.Create(stockTrade);
+
+            return Ok();
+        }
+        // If threw custom validation messages, could check for each and return different response code.
+        catch { 
+            throw;
+        }            
     }
 }
 
