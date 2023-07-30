@@ -25,8 +25,15 @@ public class StockPricesController : ControllerBase
     [HttpGet("GetByTicker")]
     public IActionResult GetByTicker(string stockTicker)
     {
-        StockPriceResponse result = _stockPriceRespository.GetByTicker(stockTicker);
-        return Ok(result);
+        try
+        {
+            StockPriceResponse result = _stockPriceRespository.GetByTicker(stockTicker);
+            return Ok(result);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }       
     }
 
     [HttpPost("GetByTickerList")]

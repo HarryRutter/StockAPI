@@ -37,7 +37,7 @@ public class StockPriceRespository : IStockPriceRespository
 
             if (stockPrice is null)
             {
-                throw new Exception("Test");
+                throw new KeyNotFoundException($"No price found for {stockTicker}.");
             }
 
             return stockPrice;

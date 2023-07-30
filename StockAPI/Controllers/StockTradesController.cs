@@ -33,9 +33,11 @@ public class StockTradesController : ControllerBase
             // If no exceptions, ok to create.
             _stockTradeRespository.Create(stockTrade);
 
+            // Should probaby return Created() with URL to Get the generated record but we don't use the price record itself yet.
             return Ok();
         }
         // If threw custom validation messages, could check for each and return different response code.
+        // For now just catching and throwing.
         catch { 
             throw;
         }            
