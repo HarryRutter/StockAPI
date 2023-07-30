@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StockAPI.Infrastructure;
-using StockAPI.Models.DTOs;
+using StockAPI.Infrastructure.Interfaces;
 
 namespace StockAPI.Controllers;
 
@@ -8,39 +7,30 @@ namespace StockAPI.Controllers;
 [Route("[controller]")]
 public class StockPricesController : ControllerBase
 {
-    private readonly ILogger<StockTradesController> _logger;
-    private readonly ApplicationDbContext _applicationDbContext;
+    private readonly IStockPriceRespository _stockPriceRespository;
 
-    public StockPricesController(ILogger<StockTradesController> logger, ApplicationDbContext applicationDbContext)
+    public StockPricesController(IStockPriceRespository stockTradeRespository)
     {
-        _logger = logger;
-        _applicationDbContext = applicationDbContext;
+        _stockPriceRespository = stockTradeRespository;
     }
 
     [HttpGet]
-    public IActionResult GetAllStockPrices()
+    public IActionResult GetAll()
     {
-        var results = _applicationDbContext.StockTrades
-            .GroupBy(x => x.StockTicker, y => y.Price)
-            .Select(x => new StockPrice(x.Key, x.Average()));
-
+        var results = _stockPriceRespository.GetAll();
         return Ok(results);
     }
 
     [HttpGet("GetByTicker")]
-    public IActionResult GetStockPriceByTicker(string stockTicker)
+    public IActionResult GetByTicker(string stockTicker)
     {
-        var result = _applicationDbContext.StockTrades
-            .Where(x => x.StockTicker == stockTicker)
-            .GroupBy(x => x.StockTicker, y => y.Price)
-            .Select(x => new StockPrice(x.Key, x.Average()));
-
+        var result = _stockPriceRespository.GetByTicker(stockTicker);
         return Ok(result);
     }
 
     // To-Do
     //[HttpGet("GetByTickers")]
-    //public IActionResult GetStockPricesByTickerList([rams string tickers)
+    //public IActionResult GetByTickerList([rams string tickers)
     //{
     //    var result = _applicationDbContext.StockTrades
     //        .Where(x => x.StockTicker == stockTicker)

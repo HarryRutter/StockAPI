@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StockAPI.Infrastructure;
+﻿using StockAPI.Infrastructure;
+using StockAPI.Infrastructure.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // In memory DB with EF for now.
 // Replace with SQL server or something more substantial.
-builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseInMemoryDatabase("StockTrades"));
+//builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseInMemoryDatabase("StockTrades"));
+
+builder.Services.AddScoped<IStockTradeRepository, StockTradeRepository>();
+builder.Services.AddScoped<IStockPriceRespository, StockPriceRespository>();
 
 builder.Services.AddControllers();
 

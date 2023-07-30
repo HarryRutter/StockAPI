@@ -2,4 +2,5 @@
 
 public record StockPrice(
     string StockTicker,
-    decimal CurrentPrice);
+    decimal Price,
+    DateTime PriceDateTime);
