@@ -4,11 +4,6 @@ using StockAPI.Infrastructure.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-// In memory DB with EF for now.
-// Replace with SQL server or something more substantial.
-//builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseInMemoryDatabase("StockTrades"));
-
 builder.Services.AddScoped<IStockTradeRepository, StockTradeRepository>();
 builder.Services.AddScoped<IStockPriceRespository, StockPriceRespository>();
 

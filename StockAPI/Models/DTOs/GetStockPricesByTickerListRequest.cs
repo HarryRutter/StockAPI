@@ -1,5 +1,4 @@
-﻿
-namespace StockAPI.Models.DTOs;
+﻿namespace StockAPI.Models.DTOs;
 
 public record GetStockPricesByTickerListRequest(
     List<string> stockTickers);

@@ -7,10 +7,10 @@ public class StockTradeRepository : IStockTradeRepository
 { 
     public void Create(StockTrade stockTrade)
     {
-        using (var context = new ApplicationDbContext())
+        using (ApplicationDbContext context = new())
         {
             context.StockTrades.Add(stockTrade);
-            context.SaveChangesAsync();
+            context.SaveChanges();
         }
     }
 }

@@ -18,21 +18,21 @@ public class StockPricesController : ControllerBase
     [HttpGet]
     public IActionResult GetAll()
     {
-        var results = _stockPriceRespository.GetAll();
+        IList<StockPriceResponse> results = _stockPriceRespository.GetAll();
         return Ok(results);
     }
 
     [HttpGet("GetByTicker")]
     public IActionResult GetByTicker(string stockTicker)
     {
-        var result = _stockPriceRespository.GetByTicker(stockTicker);
+        StockPriceResponse result = _stockPriceRespository.GetByTicker(stockTicker);
         return Ok(result);
     }
 
     [HttpPost("GetByTickerList")]
     public IActionResult GetByTickerList(GetStockPricesByTickerListRequest request)
     {
-        var result = _stockPriceRespository.GetByTickerList(request.stockTickers);
+        IList<StockPriceResponse> result = _stockPriceRespository.GetByTickerList(request.stockTickers);
         return Ok(result);
     }
 }

@@ -9,7 +9,7 @@ public class StockPriceRespository : IStockPriceRespository
     public StockPriceRespository()
     {
         // Init seed data
-        var stockTrades = new List<StockTrade>()
+        List<StockTrade> stockTrades = new()
         {
             new StockTrade(
                 "HR",
@@ -30,21 +30,26 @@ public class StockPriceRespository : IStockPriceRespository
                 "TYL",
                 Guid.NewGuid(),
                 10,
-                20)
+                20),
+            new StockTrade(
+                "META",
+                Guid.NewGuid(),
+                0.01m,
+                1000)
         };
 
-        using (var context = new ApplicationDbContext())
+        using (ApplicationDbContext context = new())
         {
             context.StockTrades.AddRange(stockTrades);
-            context.SaveChangesAsync();
+            context.SaveChanges();
         };
     }
 
     public IList<StockPriceResponse> GetAll()
     {
-        using (var context = new ApplicationDbContext())
+        using (ApplicationDbContext context = new())
         {
-            var query = context.StockTrades
+            IQueryable<StockPriceResponse> query = context.StockTrades
                 .GroupBy(x => x.StockTicker, y => y.Price)
                 .Select(x => new StockPriceResponse(
                     x.Key,
@@ -57,9 +62,9 @@ public class StockPriceRespository : IStockPriceRespository
 
     public StockPriceResponse GetByTicker(string stockTicker)
     {
-        using (var context = new ApplicationDbContext())
+        using (ApplicationDbContext context = new())
         {
-            var query = context.StockTrades
+            IQueryable<StockPriceResponse> query = context.StockTrades
                 .Where(x => x.StockTicker == stockTicker)
                 .GroupBy(x => x.StockTicker, y => y.Price)
                 .Select(x => new StockPriceResponse(
@@ -67,7 +72,7 @@ public class StockPriceRespository : IStockPriceRespository
                     x.Average(),
                     DateTime.Now));
 
-            var stockPrice = query.SingleOrDefault();
+            StockPriceResponse stockPrice = query.SingleOrDefault();
 
             if (stockPrice is null)
             {
@@ -80,9 +85,9 @@ public class StockPriceRespository : IStockPriceRespository
 
     public IList<StockPriceResponse> GetByTickerList(IList<string> stockTickers)
     {
-        using (var context = new ApplicationDbContext())
+        using (ApplicationDbContext context = new())
         {
-            var query = context.StockTrades
+            IQueryable<StockPriceResponse> query = context.StockTrades
                 .Where(x => stockTickers.Contains(x.StockTicker))
                 .GroupBy(x => x.StockTicker, y => y.Price)
                 .Select(x => new StockPriceResponse(

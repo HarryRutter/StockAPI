@@ -5,16 +5,13 @@ namespace StockAPI.Infrastructure;
 
 public class ApplicationDbContext : DbContext
 {
-    //public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-    //   : base(options) { }
-
-    //public DbSet<StockTrade> StockTrades => Set<StockTrade>();
+    private const string _dbName = "StockAPI";
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         // In memory DB with EF for now.
-        // Replace with SQL server or something more substantial.
-        optionsBuilder.UseInMemoryDatabase(databaseName: "StockTrades");
+        // Replace with SQL server or something more substantial later!
+        optionsBuilder.UseInMemoryDatabase(databaseName: _dbName);
     }
 
     public DbSet<StockTrade> StockTrades { get; set; }
