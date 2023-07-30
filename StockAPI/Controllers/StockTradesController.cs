@@ -7,12 +7,12 @@ namespace StockAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class StockTradeController : ControllerBase
+public class StockTradesController : ControllerBase
 {
-    private readonly ILogger<StockTradeController> _logger;
+    private readonly ILogger<StockTradesController> _logger;
     private readonly ApplicationDbContext _applicationDbContext;
 
-    public StockTradeController(ILogger<StockTradeController> logger, ApplicationDbContext applicationDbContext)
+    public StockTradesController(ILogger<StockTradesController> logger, ApplicationDbContext applicationDbContext)
     {
         _logger = logger;
         _applicationDbContext = applicationDbContext;

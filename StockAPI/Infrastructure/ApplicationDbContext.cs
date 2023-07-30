@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StockAPI.Infrastructure.Interfaces;
 using StockAPI.Models;
 
 namespace StockAPI.Infrastructure;
