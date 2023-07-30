@@ -4,7 +4,10 @@ namespace StockAPI.Infrastructure.Interfaces;
 
 public interface IStockPriceRespository
 {
-	IList<StockPrice> GetAll();
-	StockPrice GetByTicker(string stockTicker);
+	IList<StockPriceResponse> GetAll();
+
+	StockPriceResponse GetByTicker(string stockTicker);
+
+	IList<StockPriceResponse>
 }
 

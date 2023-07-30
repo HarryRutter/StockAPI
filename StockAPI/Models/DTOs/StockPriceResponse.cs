@@ -1,6 +1,6 @@
 ﻿namespace StockAPI.Models.DTOs;
 
-public record StockPrice(
+public record StockPriceResponse(
     string StockTicker,
     decimal Price,
     DateTime PriceDateTime);

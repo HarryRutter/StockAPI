@@ -8,7 +8,7 @@ public class StockPriceRespository : IStockPriceRespository
 {
     public StockPriceRespository()
     {
-        // Init test data
+        // Init seed data
         var stockTrades = new List<StockTrade>()
         {
             new StockTrade(
@@ -39,13 +39,14 @@ public class StockPriceRespository : IStockPriceRespository
             context.SaveChangesAsync();
         };
     }
-    public IList<StockPrice> GetAll()
+
+    public IList<StockPriceResponse> GetAll()
     {
         using (var context = new ApplicationDbContext())
         {
             var query = context.StockTrades
                 .GroupBy(x => x.StockTicker, y => y.Price)
-                .Select(x => new StockPrice(
+                .Select(x => new StockPriceResponse(
                     x.Key,
                     x.Average(),
                     DateTime.Now));
@@ -54,14 +55,14 @@ public class StockPriceRespository : IStockPriceRespository
         }
     }
 
-    public StockPrice GetByTicker(string stockTicker)
+    public StockPriceResponse GetByTicker(string stockTicker)
     {
         using (var context = new ApplicationDbContext())
         {
             var query = context.StockTrades
                 .Where(x => x.StockTicker == stockTicker)
                 .GroupBy(x => x.StockTicker, y => y.Price)
-                .Select(x => new StockPrice(
+                .Select(x => new StockPriceResponse(
                     x.Key,
                     x.Average(),
                     DateTime.Now));
