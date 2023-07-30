@@ -2,10 +2,10 @@
 
 public class StockTrade
 {
-    internal StockTrade(string stockTicker, Guid brokerId, decimal price, decimal numberOfShares)
+    public StockTrade(string stockTicker, Guid brokerId, decimal price, decimal numberOfShares)
     {
         Id = Guid.NewGuid();
-        StockTicker = stockTicker;
+        StockTicker = stockTicker?.ToUpper() ?? string.Empty;
         BrokerId = brokerId;
         Price = price;
         NumberOfShares = numberOfShares;
@@ -24,7 +24,7 @@ public class StockTrade
 
     public decimal NumberOfShares { get; private set; }
 
-    internal void Validate()
+    public void Validate()
     {
         // Throwing standard exceptions for now but might be nice to add some custom exception types.
         if (string.IsNullOrWhiteSpace(StockTicker))

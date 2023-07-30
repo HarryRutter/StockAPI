@@ -1,15 +1,11 @@
 ﻿using StockAPI.Infrastructure;
 using StockAPI.Infrastructure.Interfaces;
-using StockAPI.Services;
-using StockAPI.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<IStockTradeRepository, StockTradeRepository>();
-builder.Services.AddScoped<IStockTradeService, StockTradeService>();
 builder.Services.AddScoped<IStockPriceRespository, StockPriceRespository>();
-
 
 builder.Services.AddControllers();
 

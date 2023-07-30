@@ -22,8 +22,6 @@
     <None Remove="Models\Entities\" />
     <None Remove="Exceptions\" />
     <None Remove="Models\Exceptions\" />
-    <None Remove="Services\" />
-    <None Remove="Services\Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -33,7 +31,5 @@
     <Folder Include="Models\Entities\" />
     <Folder Include="Exceptions\" />
     <Folder Include="Models\Exceptions\" />
-    <Folder Include="Services\" />
-    <Folder Include="Services\Interfaces\" />
   </ItemGroup>
 </Project>

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StockAPI.Infrastructure;
 using StockAPI.Infrastructure.Interfaces;
 using StockAPI.Models;
 using StockAPI.Models.DTOs;
-using StockAPI.Services.Interfaces;
 
 namespace StockAPI.Controllers;
 
@@ -10,11 +10,11 @@ namespace StockAPI.Controllers;
 [Route("[controller]")]
 public class StockTradesController : ControllerBase
 {
-    private readonly IStockTradeService _stockTradeService;
+    private readonly IStockTradeRepository _stockTradeRepository;
 
-    public StockTradesController(IStockTradeService stockTradeService)
+    public StockTradesController(IStockTradeRepository stockTradeRepository)
     {
-        _stockTradeService = stockTradeService;
+        _stockTradeRepository = stockTradeRepository;
     }
 
     [HttpPost]
@@ -26,19 +26,10 @@ public class StockTradesController : ControllerBase
             request.Price,
             request.NumberOfShares);
 
-        try
-        {
-            // Would be nice to have this all wrapped in a MediatR command handler or something but I didn't have the time.
-            _stockTradeService.CreateIfValid(stockTrade);
+        // Create will only create if valid.
+        _stockTradeRepository.Create(stockTrade);
 
-            // Should probaby return Created() with URL to Get the generated record but we don't use the price record itself yet.
-            return Ok();
-        }
-        // If threw custom validation messages, could check for each and return different response code.
-        // For now just catching and throwing.
-        catch { 
-            throw;
-        }            
+        return Ok();
     }
 }
 
