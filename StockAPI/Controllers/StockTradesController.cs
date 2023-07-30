@@ -2,6 +2,7 @@
 using StockAPI.Infrastructure.Interfaces;
 using StockAPI.Models;
 using StockAPI.Models.DTOs;
+using StockAPI.Services.Interfaces;
 
 namespace StockAPI.Controllers;
 
@@ -9,11 +10,11 @@ namespace StockAPI.Controllers;
 [Route("[controller]")]
 public class StockTradesController : ControllerBase
 {
-    private readonly IStockTradeRepository _stockTradeRespository;
+    private readonly IStockTradeService _stockTradeService;
 
-    public StockTradesController(IStockTradeRepository stockTradeRespository)
+    public StockTradesController(IStockTradeService stockTradeService)
     {
-        _stockTradeRespository = stockTradeRespository;
+        _stockTradeService = stockTradeService;
     }
 
     [HttpPost]
@@ -27,11 +28,8 @@ public class StockTradesController : ControllerBase
 
         try
         {
-            // Validate method will throw exception if business rules aren't satisfied.
-            stockTrade.Validate();
-
-            // If no exceptions, ok to create.
-            _stockTradeRespository.Create(stockTrade);
+            // Would be nice to have this all wrapped in a MediatR command handler or something but I didn't have the time.
+            _stockTradeService.CreateIfValid(stockTrade);
 
             // Should probaby return Created() with URL to Get the generated record but we don't use the price record itself yet.
             return Ok();
