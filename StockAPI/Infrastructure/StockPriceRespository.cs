@@ -8,49 +8,59 @@ public class StockPriceRespository : IStockPriceRespository
 {
     public IList<StockPriceResponse> GetAll()
     {
-        using (ApplicationDbContext context = new())
-        {
-            IQueryable<StockPriceResponse> query = _GetStockPriceResponseQueryFromStockTradeQuery(context.StockTrades);
+        using ApplicationDbContext context = new();
 
-            return query.ToList();
-        }
+        IQueryable<StockPriceResponse> query = _GetStockPriceResponseQueryFromStockTradeQuery(context.StockTrades);
+
+        return query.ToList();
+
     }
 
     public StockPriceResponse GetByTicker(string stockTicker)
     {
-        using (ApplicationDbContext context = new())
+        if (string.IsNullOrWhiteSpace(stockTicker))
         {
-            IQueryable<StockPriceResponse> query = _GetStockPriceResponseQueryFromStockTradeQuery(
-               context.StockTrades
-                    .Where(x => x.StockTicker == stockTicker.ToUpper()));
-
-            StockPriceResponse? stockPrice = query.SingleOrDefault();
-
-            if (stockPrice is null)
-            {
-                // Would be nice to throw a custom exception here perhaps.
-                throw new KeyNotFoundException($"No price found for {stockTicker}.");
-            }
-
-            return stockPrice;
+            throw new ArgumentNullException("Request must include a stock ticker.");
         }
+
+        using ApplicationDbContext context = new();
+
+        IQueryable<StockPriceResponse> query = _GetStockPriceResponseQueryFromStockTradeQuery(
+           context.StockTrades
+                .Where(x => x.StockTicker == stockTicker.ToUpper()));
+
+        StockPriceResponse? stockPrice = query.SingleOrDefault();
+
+        if (stockPrice is null)
+        {
+            // Would be nice to throw a custom exception here perhaps.
+            throw new KeyNotFoundException($"No price found for {stockTicker}.");
+        }
+
+        return stockPrice;
+
     }
 
     public IList<StockPriceResponse> GetByTickerList(IList<string> stockTickers)
     {
-        using (ApplicationDbContext context = new())
+        if (!stockTickers.Any())
         {
-            // Convert to upper case.
-            stockTickers = stockTickers
-                .Select(x => x.ToUpper())
-                .ToList();
-
-            IQueryable<StockPriceResponse> query = _GetStockPriceResponseQueryFromStockTradeQuery(
-                context.StockTrades
-                    .Where(x => stockTickers.Contains(x.StockTicker)));
-
-            return query.ToList();
+            throw new ArgumentNullException("Request must include a list of stock tickers.");
         }
+
+        using ApplicationDbContext context = new();
+
+        // Convert to upper case.
+        stockTickers = stockTickers
+            .Select(x => x.ToUpper())
+            .ToList();
+
+        IQueryable<StockPriceResponse> query = _GetStockPriceResponseQueryFromStockTradeQuery(
+            context.StockTrades
+                .Where(x => stockTickers.Contains(x.StockTicker)));
+
+        return query.ToList();
+
     }
 
     private IQueryable<StockPriceResponse> _GetStockPriceResponseQueryFromStockTradeQuery(IQueryable<StockTrade> stockTradeQuery)

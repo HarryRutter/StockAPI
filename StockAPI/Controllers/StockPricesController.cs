@@ -31,32 +31,43 @@ public class StockPricesController : ControllerBase
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(stockTicker))
-            {
-                return BadRequest("Request must include a stock ticker.");
-            }
-
             StockPriceResponse result = _stockPriceRespository.GetByTicker(stockTicker);
 
             return Ok(result);
         }
-        catch (KeyNotFoundException ex)
+        catch (ArgumentNullException argumentNullEx)
         {
-            return NotFound(ex.Message);
-        }       
+            return BadRequest(argumentNullEx.Message);
+        }
+        catch (KeyNotFoundException keyNotFoundEx)
+        {
+            return NotFound(keyNotFoundEx.Message);
+        }
+        catch (Exception ex)
+        {
+            // Log error but skipped for brevity.
+            throw;
+        }
     }
 
     [HttpPost("GetByTickerList")]
     public IActionResult GetByTickerList(GetStockPricesByTickerListRequest request)
     {
-        if (!request.StockTickers.Any())
+        try
         {
-            return BadRequest("Request must include a list of stock tickers.");
+            IList<StockPriceResponse> result = _stockPriceRespository.GetByTickerList(request.StockTickers);
+
+            return Ok(result);
         }
-
-        IList<StockPriceResponse> result = _stockPriceRespository.GetByTickerList(request.StockTickers);
-
-        return Ok(result);
+        catch (ArgumentNullException argumentNullEx)
+        {
+            return BadRequest(argumentNullEx.Message);
+        }
+        catch (Exception ex)
+        {
+            // Log error but skipped for brevity.
+            throw;
+        }
     }
 }
 

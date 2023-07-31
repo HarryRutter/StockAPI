@@ -36,13 +36,14 @@ public class StockTradesController : ControllerBase
 
             return Ok();
         }
-        catch (ArgumentException argEx)
+        catch (ArgumentException argumentEx)
         {
             // Would log this error but skipping for brevity.
-            return BadRequest(argEx.Message);
+            return BadRequest(argumentEx.Message);
         }
-        catch
+        catch (Exception ex)
         {
+            // Log error but skipped for brevity.
             throw;
         }
     }

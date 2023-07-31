@@ -4,7 +4,7 @@ using StockAPI.Models;
 namespace StockAPI.Infrastructure;
 
 public class StockTradeRepository : IStockTradeRepository
-{ 
+{
     public void Create(StockTrade stockTrade)
     {
         try
@@ -13,11 +13,11 @@ public class StockTradeRepository : IStockTradeRepository
             stockTrade.CheckForCreationValidationErrors();
 
             // If no exceptions, ok to create.
-            using (ApplicationDbContext context = new())
-            {
-                context.StockTrades.Add(stockTrade);
-                context.SaveChanges();
-            }
+            using ApplicationDbContext context = new();
+
+            context.StockTrades.Add(stockTrade);
+            context.SaveChanges();
+
         }
         // If threw custom validation messages, could check for each and return different response code up the stack.
         // For now just catching and throwing.
@@ -25,6 +25,6 @@ public class StockTradeRepository : IStockTradeRepository
         {
             throw;
         }
-        
+
     }
 }
