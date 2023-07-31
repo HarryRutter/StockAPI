@@ -18,7 +18,7 @@ public class StockTradeTests
             10);
 
         // Assert
-        Assert.True(stockTrade.StockTicker == "TEST");
+        Assert.Equal("TEST", stockTrade.StockTicker);
     }
 
     [Fact]
@@ -40,9 +40,9 @@ public class StockTradeTests
         catch (ArgumentException expectedException)
         {
             // Expected exception thrown.
-            // I'd like to throw a custom exception here or maybe a enum, to save checking for a string but don't have time sadly.
+            // I'd like to throw a custom exception here or maybe a enum, to save checking for a string which is not great but don't have time sadly.
             // Assert
-            Assert.True(expectedException.Message == "Stock ticker must be provided.");
+            Assert.Equal("Stock ticker must be provided.", expectedException.Message);
         }
     }
 
@@ -65,9 +65,9 @@ public class StockTradeTests
         catch (ArgumentException expectedException)
         {
             // Expected exception thrown.
-            // I'd like to throw a custom exception here or maybe a enum, to save checking for a string but don't have time sadly.
+            // I'd like to throw a custom exception here or maybe a enum, to save checking for a string which is not great but don't have time sadly.
             // Assert
-            Assert.True(expectedException.Message == "Price must be a decimal value greater than 0.");
+            Assert.Equal("Price must be a decimal value greater than 0.", expectedException.Message);
         }
     }
 
@@ -90,9 +90,9 @@ public class StockTradeTests
         catch (ArgumentException expectedException)
         {
             // Expected exception thrown.
-            // I'd like to throw a custom exception here or maybe a enum, to save checking for a string but don't have time sadly.
+            // I'd like to throw a custom exception here or maybe a enum, to save checking for a string which is not great but don't have time sadly.
             // Assert
-            Assert.True(expectedException.Message == "Number of shares must be a decimal value greater than 0.");
+            Assert.Equal("Number of shares must be a decimal value greater than 0.", expectedException.Message);
         }
     }
 }
