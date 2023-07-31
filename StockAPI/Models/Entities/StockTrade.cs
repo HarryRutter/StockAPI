@@ -24,22 +24,23 @@ public class StockTrade
 
     public decimal NumberOfShares { get; private set; }
 
-    public void Validate()
+    // Would likely use FluentValidation or something for this.
+    public void CheckForCreationValidationErrors()
     {
         // Throwing standard exceptions for now but might be nice to add some custom exception types.
         if (string.IsNullOrWhiteSpace(StockTicker))
         {
-            throw new Exception("Stock ticker must be provided.");
+            throw new ArgumentException("Stock ticker must be provided.");
         }
 
         if (Price <= 0)
         {
-            throw new Exception("Price must be a decimal value greater than 0");
+            throw new ArgumentException("Price must be a decimal value greater than 0");
         }
 
         if (NumberOfShares <= 0)
         {
-            throw new Exception("Number of shares must be a decimal value greater than 0.");
+            throw new ArgumentException("Number of shares must be a decimal value greater than 0.");
         }
     }
 }

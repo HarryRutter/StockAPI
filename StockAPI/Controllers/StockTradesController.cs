@@ -23,16 +23,28 @@ public class StockTradesController : ControllerBase
     // Nice to get some rate limiting in here, save the server getting swamped under high traffic.
     public IActionResult CreateStockTrade([FromBody] CreateStockTradeRequest request)
     {
-        StockTrade stockTrade = new(
+        try
+        {
+            StockTrade stockTrade = new(
             request.StockTicker,
             request.BrokerId, // Would be nice to ge this from the broker's token directly perhaps?
             request.Price,
             request.NumberOfShares);
 
-        // Move this off to a message queue for scalability.
-        _stockTradeRepository.Create(stockTrade);
+            // Move this off to a message queue for scalability.
+            _stockTradeRepository.Create(stockTrade);
 
-        return Ok();
+            return Ok();
+        }
+        catch (ArgumentException argEx)
+        {
+            // Would log this error but skipping for brevity.
+            return BadRequest(argEx.Message);
+        }
+        catch
+        {
+            throw;
+        }
     }
 }
 

@@ -31,7 +31,12 @@ public class StockPricesController : ControllerBase
     {
         try
         {
-            StockPriceResponse result = _stockPriceRespository.GetByTicker(stockTicker);
+            if (string.IsNullOrWhiteSpace(stockTicker))
+            {
+                return BadRequest("Request did not include a stock ticker.");
+            }
+
+            StockPriceResponse result = _stockPriceRespository.GetByTicker(stockTicker.ToUpper());
 
             return Ok(result);
         }
@@ -44,7 +49,16 @@ public class StockPricesController : ControllerBase
     [HttpPost("GetByTickerList")]
     public IActionResult GetByTickerList(GetStockPricesByTickerListRequest request)
     {
-        IList<StockPriceResponse> result = _stockPriceRespository.GetByTickerList(request.stockTickers);
+        if (!request.StockTickers.Any())
+        {
+            return BadRequest("Request did not include any stock tickers.");
+        }
+
+        // Convert to upper case before sending.
+        IList<StockPriceResponse> result = _stockPriceRespository.GetByTickerList(
+            request.StockTickers
+                .Select(x => x.ToUpper())
+                .ToList());
 
         return Ok(result);
     }
