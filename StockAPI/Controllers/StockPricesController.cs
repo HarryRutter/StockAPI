@@ -33,10 +33,10 @@ public class StockPricesController : ControllerBase
         {
             if (string.IsNullOrWhiteSpace(stockTicker))
             {
-                return BadRequest("Request did not include a stock ticker.");
+                return BadRequest("Request must include a stock ticker.");
             }
 
-            StockPriceResponse result = _stockPriceRespository.GetByTicker(stockTicker.ToUpper());
+            StockPriceResponse result = _stockPriceRespository.GetByTicker(stockTicker);
 
             return Ok(result);
         }
@@ -51,14 +51,10 @@ public class StockPricesController : ControllerBase
     {
         if (!request.StockTickers.Any())
         {
-            return BadRequest("Request did not include any stock tickers.");
+            return BadRequest("Request must include a list of stock tickers.");
         }
 
-        // Convert to upper case before sending.
-        IList<StockPriceResponse> result = _stockPriceRespository.GetByTickerList(
-            request.StockTickers
-                .Select(x => x.ToUpper())
-                .ToList());
+        IList<StockPriceResponse> result = _stockPriceRespository.GetByTickerList(request.StockTickers);
 
         return Ok(result);
     }

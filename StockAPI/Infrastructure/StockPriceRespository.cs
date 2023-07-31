@@ -22,7 +22,7 @@ public class StockPriceRespository : IStockPriceRespository
         {
             IQueryable<StockPriceResponse> query = _GetStockPriceResponseQueryFromStockTradeQuery(
                context.StockTrades
-                    .Where(x => x.StockTicker == stockTicker));
+                    .Where(x => x.StockTicker == stockTicker.ToUpper()));
 
             StockPriceResponse? stockPrice = query.SingleOrDefault();
 
@@ -40,6 +40,11 @@ public class StockPriceRespository : IStockPriceRespository
     {
         using (ApplicationDbContext context = new())
         {
+            // Convert to upper case.
+            stockTickers = stockTickers
+                .Select(x => x.ToUpper())
+                .ToList();
+
             IQueryable<StockPriceResponse> query = _GetStockPriceResponseQueryFromStockTradeQuery(
                 context.StockTrades
                     .Where(x => stockTickers.Contains(x.StockTicker)));
