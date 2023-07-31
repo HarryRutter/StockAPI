@@ -27,7 +27,7 @@ public class StockTradesController : ControllerBase
         {
             StockTrade stockTrade = new(
             request.StockTicker,
-            request.BrokerId, // Would be nice to ge this from the broker's token directly perhaps?
+            request.BrokerId, // Would be nice to get this from the broker's token directly perhaps?
             request.Price,
             request.NumberOfShares);
 
