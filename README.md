@@ -3,7 +3,7 @@ Stock API Project for Tyl by Harry Rutter
 
 ## Introduction
 
-The intent of this project is to offer up a few API services - one to add records for stock trades then some to query by ticker and list of tickers.
+The intent of this project is to offer up a few API services - one to add records for stock trades then some to query average stock prices for a ticker or list of tickers.
 
 ## Notes
 
