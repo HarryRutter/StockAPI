@@ -5,6 +5,8 @@ Stock API Project for Tyl by Harry Rutter
 
 The intent of this project is to offer up a few API services - one to add records for stock trades then some to query average stock prices for a ticker or list of tickers.
 
+The project will open a swagger page on run which can be used to test the API.
+
 ## Notes
 
 My thinking was that we only really need to persist the trades themselves and can then derive the average prices when we query, so we only have one DB entity and then a few DTOs.
