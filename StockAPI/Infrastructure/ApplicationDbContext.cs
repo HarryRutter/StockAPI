@@ -5,6 +5,7 @@ namespace StockAPI.Infrastructure;
 
 public class ApplicationDbContext : DbContext
 {
+    // Would pull this / the full connection string from the config so it could easily be replaced per env.
     private const string _dbName = "StockAPI";
     
     public DbSet<StockTrade> StockTrades { get; set; }

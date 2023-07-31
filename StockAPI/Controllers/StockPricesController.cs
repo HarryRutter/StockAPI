@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿//using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StockAPI.Infrastructure.Interfaces;
 using StockAPI.Models.DTOs;
 
@@ -6,6 +7,8 @@ namespace StockAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+//[Authorize]
+// Commenting this out for brevity but would need some auth checks to ensure the user making the request has a valid token and the rights to do so.
 public class StockPricesController : ControllerBase
 {
     private readonly IStockPriceRespository _stockPriceRespository;
@@ -19,6 +22,7 @@ public class StockPricesController : ControllerBase
     public IActionResult GetAll()
     {
         IList<StockPriceResponse> results = _stockPriceRespository.GetAll();
+
         return Ok(results);
     }
 
@@ -28,6 +32,7 @@ public class StockPricesController : ControllerBase
         try
         {
             StockPriceResponse result = _stockPriceRespository.GetByTicker(stockTicker);
+
             return Ok(result);
         }
         catch (KeyNotFoundException ex)
@@ -40,6 +45,7 @@ public class StockPricesController : ControllerBase
     public IActionResult GetByTickerList(GetStockPricesByTickerListRequest request)
     {
         IList<StockPriceResponse> result = _stockPriceRespository.GetByTickerList(request.stockTickers);
+
         return Ok(result);
     }
 }

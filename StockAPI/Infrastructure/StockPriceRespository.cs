@@ -10,12 +10,7 @@ public class StockPriceRespository : IStockPriceRespository
     {
         using (ApplicationDbContext context = new())
         {
-            IQueryable<StockPriceResponse> query = context.StockTrades
-                .GroupBy(x => x.StockTicker, y => y.Price)
-                .Select(x => new StockPriceResponse(
-                    x.Key,
-                    x.Average(),
-                    DateTime.Now));
+            IQueryable<StockPriceResponse> query = _GetStockPriceResponseQueryFromStockTradeQuery(context.StockTrades);
 
             return query.ToList();
         }
@@ -25,18 +20,15 @@ public class StockPriceRespository : IStockPriceRespository
     {
         using (ApplicationDbContext context = new())
         {
-            IQueryable<StockPriceResponse> query = context.StockTrades
-                .Where(x => x.StockTicker == stockTicker)
-                .GroupBy(x => x.StockTicker, y => y.Price)
-                .Select(x => new StockPriceResponse(
-                    x.Key,
-                    x.Average(),
-                    DateTime.Now));
+            IQueryable<StockPriceResponse> query = _GetStockPriceResponseQueryFromStockTradeQuery(
+               context.StockTrades
+                    .Where(x => x.StockTicker == stockTicker));
 
-            StockPriceResponse stockPrice = query.SingleOrDefault();
+            StockPriceResponse? stockPrice = query.SingleOrDefault();
 
             if (stockPrice is null)
             {
+                // Would be nice to throw a custom exception here perhaps.
                 throw new KeyNotFoundException($"No price found for {stockTicker}.");
             }
 
@@ -48,15 +40,21 @@ public class StockPriceRespository : IStockPriceRespository
     {
         using (ApplicationDbContext context = new())
         {
-            IQueryable<StockPriceResponse> query = context.StockTrades
-                .Where(x => stockTickers.Contains(x.StockTicker))
-                .GroupBy(x => x.StockTicker, y => y.Price)
-                .Select(x => new StockPriceResponse(
-                    x.Key,
-                    x.Average(),
-                    DateTime.Now));
+            IQueryable<StockPriceResponse> query = _GetStockPriceResponseQueryFromStockTradeQuery(
+                context.StockTrades
+                    .Where(x => stockTickers.Contains(x.StockTicker)));
 
             return query.ToList();
         }
+    }
+
+    private IQueryable<StockPriceResponse> _GetStockPriceResponseQueryFromStockTradeQuery(IQueryable<StockTrade> stockTradeQuery)
+    {
+        return stockTradeQuery
+            .GroupBy(x => x.StockTicker, y => y.Price)
+            .Select(x => new StockPriceResponse(
+                x.Key,
+                x.Average(),
+                DateTime.Now));
     }
 }

@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using StockAPI.Infrastructure;
+﻿//using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StockAPI.Infrastructure.Interfaces;
 using StockAPI.Models;
 using StockAPI.Models.DTOs;
@@ -8,6 +8,8 @@ namespace StockAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+//[Authorize]
+// Commenting this out for brevity but would need some auth checks to ensure the user making the request has a valid token and the rights to do so.
 public class StockTradesController : ControllerBase
 {
     private readonly IStockTradeRepository _stockTradeRepository;
@@ -18,15 +20,16 @@ public class StockTradesController : ControllerBase
     }
 
     [HttpPost]
+    // Nice to get some rate limiting in here, save the server getting swamped under high traffic.
     public IActionResult CreateStockTrade([FromBody] CreateStockTradeRequest request)
     {
         StockTrade stockTrade = new(
             request.StockTicker,
-            request.BrokerId,
+            request.BrokerId, // Would be nice to ge this from the broker's token directly perhaps?
             request.Price,
             request.NumberOfShares);
 
-        // Create will only create if valid.
+        // Move this off to a message queue for scalability.
         _stockTradeRepository.Create(stockTrade);
 
         return Ok();
