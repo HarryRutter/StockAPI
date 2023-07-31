@@ -9,6 +9,7 @@ public class StockTrade
         BrokerId = brokerId;
         Price = price;
         NumberOfShares = numberOfShares;
+        CheckForCreationValidationErrors();
     }
 
     public Guid Id { get; init; }
@@ -24,7 +25,6 @@ public class StockTrade
 
     public decimal NumberOfShares { get; private set; }
 
-    // Would likely use FluentValidation or something for this.
     public void CheckForCreationValidationErrors()
     {
         // Throwing standard exceptions for now but might be nice to add some custom exception types.
@@ -35,7 +35,7 @@ public class StockTrade
 
         if (Price <= 0)
         {
-            throw new ArgumentException("Price must be a decimal value greater than 0");
+            throw new ArgumentException("Price must be a decimal value greater than 0.");
         }
 
         if (NumberOfShares <= 0)

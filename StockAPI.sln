@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockAPI.Tests", "StockAPI.Tests\StockAPI.Tests.csproj", "{DDF3DC08-0943-4BEC-99CB-6CD2C5EA4A9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{F460822A-2F92-4E6E-B894-130443632E94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F460822A-2F92-4E6E-B894-130443632E94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F460822A-2F92-4E6E-B894-130443632E94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDF3DC08-0943-4BEC-99CB-6CD2C5EA4A9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDF3DC08-0943-4BEC-99CB-6CD2C5EA4A9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDF3DC08-0943-4BEC-99CB-6CD2C5EA4A9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDF3DC08-0943-4BEC-99CB-6CD2C5EA4A9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
